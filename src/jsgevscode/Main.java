@@ -12,7 +12,7 @@ public class Main extends EngineFrame {
 
     Bola bolinha;
 
-    final double GRAVIDADE = 20;
+    public static final double GRAVIDADE = 20;
 
     public Main() {
 
@@ -62,27 +62,13 @@ public class Main extends EngineFrame {
      */
     @Override
     public void update(double delta) {
-        bolinha.x += bolinha.vx * delta;
-        bolinha.y += bolinha.vy * delta;
 
-        if (bolinha.x + bolinha.raio >= getScreenWidth()) {
-            bolinha.x = getScreenWidth() - bolinha.raio;
-            bolinha.vx = -bolinha.vx * bolinha.elasticidade;
-        } else if (bolinha.x - bolinha.raio <= 0) {
-            bolinha.x = bolinha.raio;
-            bolinha.vx = -bolinha.vx * bolinha.elasticidade;
+        double valorScroll = getMouseWheelMove();
+        if (valorScroll != 0) {
+            bolinha.raio += valorScroll * 2;
         }
 
-        if (bolinha.y + bolinha.raio >= getScreenHeight()) {
-            bolinha.y = getScreenHeight() - bolinha.raio;
-            bolinha.vy = -bolinha.vy * bolinha.elasticidade;
-        } else if (bolinha.y - bolinha.raio <= 0) {
-            bolinha.y = bolinha.raio;
-            bolinha.vy = -bolinha.vy * bolinha.elasticidade;
-        }
-        bolinha.vx *= bolinha.atrito;
-        bolinha.vy = (bolinha.vy * bolinha.atrito) + GRAVIDADE;
-
+        bolinha.atualizar(delta, this);
     }
 
     /**
